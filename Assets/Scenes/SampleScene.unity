@@ -334,6 +334,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194229}
   m_Layer: 6
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -415,6 +416,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1445038283}
   m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
+--- !u!114 &963194229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56916a0a5ae84054587f803713e1286c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zoomSpeed: 2
+  minZoom: 5
+  maxZoom: 15
+  zoomSmoothTime: 0.1
 --- !u!1 &1429971465
 GameObject:
   m_ObjectHideFlags: 0
@@ -588,6 +605,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 07de4a26-a825-408a-9d3e-e3d978ef2120
     m_ActionName: Player/Attack[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 963194229}
+        m_TargetAssemblyTypeName: CameraZoom, Assembly-CSharp
+        m_MethodName: OnZoom
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1e6ef2f7-12d3-4994-9fe4-8f6bac2e622d
+    m_ActionName: Player/Zoom[/Mouse/scroll/down,/Mouse/scroll/up]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
