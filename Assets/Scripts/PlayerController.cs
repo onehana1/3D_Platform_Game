@@ -5,33 +5,34 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
-    public float moveSpeed;
-    private Vector2 curMovementInput;
-    public float jumpPower;
-    public LayerMask groundLayerMask;
+    [SerializeField] float moveSpeed; // 이속
+    private Vector2 curMovementInput;   // 이동 입력
+    [SerializeField] float jumpPower;     // 점프힘
+    [SerializeField] LayerMask groundLayerMask;   // 바닥 감지 레이어
+    [SerializeField] float decelerationSpeed = 5.0f;
 
     [Header("Look")]
-    public Transform cameraContainer;
-    public float minXLook;
-    public float maxXLook;
-    private float camCurXRot;
-    public float lookSensitivity;
+    [SerializeField] Transform cameraContainer;   // 카메라 포함된 오브젝트
+    [SerializeField] float minXLook;  // 캠 회전 제한
+    [SerializeField] float maxXLook;  // 캠 회전 제한
+    private float camCurXRot;   // 카메라 회전 각도
+    [SerializeField] float lookSensitivity;   // 마우스 감도
 
-    private Vector2 mouseDelta;
+    private Vector2 mouseDelta; // 마우스 입력값
 
     [HideInInspector]
-    public bool canLook = true;
+    [SerializeField] bool canLook = true;
 
-    private Rigidbody rigidbody;
+    private Rigidbody _rigidbody;
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+       // Cursor.lockState = CursorLockMode.Locked;   // 커서 잠금
     }
 
     private void FixedUpdate()
@@ -54,11 +55,11 @@ public class PlayerController : MonoBehaviour
 
     public void OnMoveInput(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
+        if (context.phase == InputActionPhase.Performed)    // 입력 받음
         {
             curMovementInput = context.ReadValue<Vector2>();
         }
-        else if (context.phase == InputActionPhase.Canceled)
+        else if (context.phase == InputActionPhase.Canceled)    // 입력 초기화
         {
             curMovementInput = Vector2.zero;
         }
@@ -68,7 +69,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started && IsGrounded())
         {
-            rigidbody.AddForce(Vector2.up * jumpPower, ForceMode.Impulse);
+            _rigidbody.AddForce(Vector2.up * jumpPower, ForceMode.Impulse);
         }
     }
 
@@ -76,9 +77,9 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x;
         dir *= moveSpeed;
-        dir.y = rigidbody.velocity.y;
+        dir.y = _rigidbody.velocity.y;
 
-        rigidbody.velocity = dir;
+        _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, dir, Time.deltaTime * decelerationSpeed);
     }
 
     void CameraLook()
@@ -92,24 +93,16 @@ public class PlayerController : MonoBehaviour
 
     bool IsGrounded()
     {
-        Ray[] rays = new Ray[4]
-        {
-            new Ray(transform.position + (transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down),
-            new Ray(transform.position + (-transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down),
-            new Ray(transform.position + (transform.right * 0.2f) + (transform.up * 0.01f), Vector3.down),
-            new Ray(transform.position + (-transform.right * 0.2f) +(transform.up * 0.01f), Vector3.down)
-        };
-
-        for (int i = 0; i < rays.Length; i++)
-        {
-            if (Physics.Raycast(rays[i], 0.1f, groundLayerMask))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return Physics.CheckSphere(transform.position + Vector3.down * 0.1f, 0.2f, groundLayerMask);
     }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(1, 0, 0, 0.5f); // 반투명한 빨간색
+        Gizmos.DrawSphere(transform.position + Vector3.down * 0.1f, 0.2f);
+    }
+
 
     public void ToggleCursor(bool toggle)
     {
