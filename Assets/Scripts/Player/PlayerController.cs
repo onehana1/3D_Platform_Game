@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
 
         _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, dir, Time.deltaTime * decelerationSpeed);
 
-        animController.SetMoveSpeed(curMovementInput.magnitude);
+        animController.SetMoveSpeed(curMovementInput.y);
     }
 
     void CameraLook()
