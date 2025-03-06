@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask groundLayerMask;   // 바닥 감지 레이어
     [SerializeField] float decelerationSpeed = 5.0f;
     private bool isGrounded = false;
+    private bool isRunning = false;
+    [SerializeField] float currentSpeed = 0;
 
     [Header("Look")]
     [SerializeField] Transform cameraContainer;   // 카메라 포함된 오브젝트
@@ -80,15 +82,24 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnRunInput(InputAction.CallbackContext context)
+    {
+        isRunning = context.phase == InputActionPhase.Performed;
+    }
+
     private void Move()
     {
+        currentSpeed = isRunning ? moveSpeed * 2f : moveSpeed; // 쉬프트로 속도 2배
+
         Vector3 dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x;
-        dir *= moveSpeed;
+        dir *= currentSpeed;
         dir.y = _rigidbody.velocity.y;
 
         _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, dir, Time.deltaTime * decelerationSpeed);
 
-        animController.SetMoveDirection(curMovementInput.x, curMovementInput.y);
+        float moveSpeedValue = isRunning ? 1.0f : 0.0f;
+
+        animController.SetMoveDirection(curMovementInput.x, curMovementInput.y, moveSpeedValue);
     }
 
     void CameraLook()
