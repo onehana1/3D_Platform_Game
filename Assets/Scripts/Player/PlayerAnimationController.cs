@@ -8,11 +8,11 @@ public class PlayerAnimationController : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    public void SetMoveSpeed(float speed)
+    public void SetMoveDirection(float moveX, float moveY)
     {
-        animator.SetFloat("MoveSpeed", speed);
+        animator.SetFloat("MoveX", moveX);
+        animator.SetFloat("MoveY", moveY);
     }
-
     public void SetGrounded(bool isGrounded)
     {
         animator.SetBool("Grounded", isGrounded);
