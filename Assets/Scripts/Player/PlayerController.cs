@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour
         else if (context.phase == InputActionPhase.Canceled)    // 입력 초기화
         {
             curMovementInput = Vector2.zero;
+            currentSpeed = 0;
         }
     }
 
@@ -89,7 +90,15 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        currentSpeed = isRunning ? moveSpeed * 2f : moveSpeed; // 쉬프트로 속도 2배
+        float targetMoveSpeed = isRunning ? moveSpeed * 2f : moveSpeed;
+
+        if (curMovementInput == Vector2.zero)
+        {
+            _rigidbody.velocity = Vector3.zero;
+            currentSpeed = targetMoveSpeed;
+            animController.SetMoveDirection(0, 0, 0); // Idle 상태로 변경
+            return;
+        }
 
         Vector3 dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x;
         dir *= currentSpeed;
@@ -97,7 +106,8 @@ public class PlayerController : MonoBehaviour
 
         _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, dir, Time.deltaTime * decelerationSpeed);
 
-        float moveSpeedValue = isRunning ? 1.0f : 0.0f;
+        float speedMagnitude = _rigidbody.velocity.magnitude / (moveSpeed * 2f);
+        float moveSpeedValue = Mathf.Lerp(animController.GetMoveSpeed(), speedMagnitude, Time.deltaTime * 10f);
 
         animController.SetMoveDirection(curMovementInput.x, curMovementInput.y, moveSpeedValue);
     }
