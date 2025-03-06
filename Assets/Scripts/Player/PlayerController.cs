@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float jumpPower;     // 점프힘
     [SerializeField] LayerMask groundLayerMask;   // 바닥 감지 레이어
     [SerializeField] float decelerationSpeed = 5.0f;
+    private bool isGrounded = false;
 
     [Header("Look")]
     [SerializeField] Transform cameraContainer;   // 카메라 포함된 오브젝트
@@ -25,9 +26,12 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody _rigidbody;
 
+    private PlayerAnimationController animController;
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        animController = GetComponentInChildren<PlayerAnimationController>();
     }
 
     void Start()
@@ -37,6 +41,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        isGrounded = IsGrounded();
+        animController.SetGrounded(isGrounded);
         Move();
     }
 
@@ -70,6 +76,7 @@ public class PlayerController : MonoBehaviour
         if (context.phase == InputActionPhase.Started && IsGrounded())
         {
             _rigidbody.AddForce(Vector2.up * jumpPower, ForceMode.Impulse);
+            animController.TriggerJump();
         }
     }
 
@@ -80,6 +87,8 @@ public class PlayerController : MonoBehaviour
         dir.y = _rigidbody.velocity.y;
 
         _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, dir, Time.deltaTime * decelerationSpeed);
+
+        animController.SetMoveSpeed(curMovementInput.magnitude);
     }
 
     void CameraLook()
