@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float minXLook;  // 캠 회전 제한
     [SerializeField] float maxXLook;  // 캠 회전 제한
     private float camCurXRot;   // 카메라 회전 각도
+    private float camCurYRot = 0f;
+
     [SerializeField] float lookSensitivity;   // 마우스 감도
 
     private Vector2 mouseDelta; // 마우스 입력값
@@ -94,17 +96,22 @@ public class PlayerController : MonoBehaviour
 
         if (curMovementInput == Vector2.zero)
         {
-            _rigidbody.velocity = Vector3.zero;
-            currentSpeed = targetMoveSpeed;
+            _rigidbody.velocity = new Vector3(0, _rigidbody.velocity.y, 0);
             animController.SetMoveDirection(0, 0, 0); // Idle 상태로 변경
             return;
         }
 
-        Vector3 dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x;
-        dir *= currentSpeed;
-        dir.y = _rigidbody.velocity.y;
+        Vector3 moveDirection = new Vector3(curMovementInput.x, 0, curMovementInput.y).normalized;
 
-        _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, dir, Time.deltaTime * decelerationSpeed);
+        if (moveDirection != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+        }
+
+        Vector3 moveVelocity = moveDirection * targetMoveSpeed;
+        moveVelocity.y = _rigidbody.velocity.y;
+        _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, moveVelocity, Time.deltaTime * decelerationSpeed);
 
         float speedMagnitude = _rigidbody.velocity.magnitude / (moveSpeed * 2f);
         float moveSpeedValue = Mathf.Lerp(animController.GetMoveSpeed(), speedMagnitude, Time.deltaTime * 10f);
@@ -112,13 +119,18 @@ public class PlayerController : MonoBehaviour
         animController.SetMoveDirection(curMovementInput.x, curMovementInput.y, moveSpeedValue);
     }
 
+
     void CameraLook()
     {
-        camCurXRot += mouseDelta.y * lookSensitivity;
-        camCurXRot = Mathf.Clamp(camCurXRot, minXLook, maxXLook);
-        cameraContainer.localEulerAngles = new Vector3(-camCurXRot, 0, 0);
+        float mouseX = mouseDelta.x * lookSensitivity;
+        float mouseY = mouseDelta.y * lookSensitivity;
 
-        transform.eulerAngles += new Vector3(0, mouseDelta.x * lookSensitivity, 0);
+        camCurXRot -= mouseY; // 위아래 반전
+        camCurXRot = Mathf.Clamp(camCurXRot, minXLook, maxXLook); // 상하 회전 제한
+
+        camCurYRot += mouseX;
+
+        cameraContainer.rotation = Quaternion.Euler(camCurXRot, camCurYRot, 0);
     }
 
     bool IsGrounded()
