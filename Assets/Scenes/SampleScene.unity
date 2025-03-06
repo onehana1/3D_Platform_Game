@@ -1408,6 +1408,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 44ce4cd3-ec0b-4130-add1-969d439cae99
     m_ActionName: Player/Run[/Keyboard/leftShift]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1429971470}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnRotateInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d61815df-a701-4cb3-9cd3-c1e31f1cd92b
+    m_ActionName: Player/Rotate[/Keyboard/a,/Keyboard/d]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1432,6 +1448,7 @@ MonoBehaviour:
     m_Bits: 55
   decelerationSpeed: 5
   currentSpeed: 0
+  rotationSpeed: 200
   cameraContainer: {fileID: 1445038283}
   minXLook: -85
   maxXLook: 85

@@ -14,6 +14,10 @@ public class PlayerController : MonoBehaviour
     private bool isRunning = false;
     [SerializeField] float currentSpeed = 0;
 
+    [Header("Rotation")]
+    [SerializeField] private float rotationSpeed = 200f;
+    private float rotateInput;
+
     [Header("Look")]
     [SerializeField] Transform cameraContainer;   // 카메라 포함된 오브젝트
     [SerializeField] float minXLook;  // 캠 회전 제한
@@ -48,6 +52,7 @@ public class PlayerController : MonoBehaviour
         isGrounded = IsGrounded();
         animController.SetGrounded(isGrounded);
         Move();
+        Rotate();
     }
 
     private void LateUpdate()
@@ -90,6 +95,11 @@ public class PlayerController : MonoBehaviour
         isRunning = context.phase == InputActionPhase.Performed;
     }
 
+    public void OnRotateInput(InputAction.CallbackContext context)
+    {
+        rotateInput = context.ReadValue<float>();
+    }
+
     private void Move()
     {
         float targetMoveSpeed = isRunning ? moveSpeed * 2f : moveSpeed;
@@ -97,26 +107,31 @@ public class PlayerController : MonoBehaviour
         if (curMovementInput == Vector2.zero)
         {
             _rigidbody.velocity = new Vector3(0, _rigidbody.velocity.y, 0);
-            animController.SetMoveDirection(0, 0, 0); // Idle 상태로 변경
+            animController.SetMoveDirection(0, 0, 0);
             return;
         }
 
-        Vector3 moveDirection = new Vector3(curMovementInput.x, 0, curMovementInput.y).normalized;
+        Vector3 moveDirection = (transform.forward * curMovementInput.y) + (transform.right * curMovementInput.x);
+        moveDirection.Normalize();
 
-        if (moveDirection != Vector3.zero)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
-        }
-
+        // 이동 속도 적용
         Vector3 moveVelocity = moveDirection * targetMoveSpeed;
         moveVelocity.y = _rigidbody.velocity.y;
         _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, moveVelocity, Time.deltaTime * decelerationSpeed);
 
+        // 애니메이션 블렌드 트리 적용 (좌우 이동 추가)
         float speedMagnitude = _rigidbody.velocity.magnitude / (moveSpeed * 2f);
         float moveSpeedValue = Mathf.Lerp(animController.GetMoveSpeed(), speedMagnitude, Time.deltaTime * 10f);
+        animController.SetMoveDirection(curMovementInput.x, curMovementInput.y, moveSpeedValue); // **좌우 이동 반영**
+    }
 
-        animController.SetMoveDirection(curMovementInput.x, curMovementInput.y, moveSpeedValue);
+
+    private void Rotate()
+    {
+        if (rotateInput != 0)
+        {
+            transform.Rotate(Vector3.up, rotateInput * rotationSpeed * Time.deltaTime);
+        }
     }
 
 
