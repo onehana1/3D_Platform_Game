@@ -16,14 +16,13 @@ public class Interaction : MonoBehaviour
     private Camera camera;
 
 
-    private Vector3 rayStart;  // Ray 시작점 저장
-    private Vector3 rayEnd;    // Ray 끝점 저장
+    private Vector3 rayStart;  // 시작점 저장
+    private Vector3 rayEnd;    // 끝점 저장
     void Start()
     {
         camera = Camera.main;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Time.time - lastCheckTime > checkRate)
@@ -59,9 +58,9 @@ public class Interaction : MonoBehaviour
     {
         if (camera == null) return;
 
-        Gizmos.color = Color.red;  // Ray는 빨간색으로 표시
-        Gizmos.DrawLine(rayStart, rayEnd);  // Ray 라인 그리기
-        Gizmos.DrawSphere(rayEnd, 0.05f);  // Ray 끝점에 작은 구(Sphere) 표시
+        Gizmos.color = Color.red;  // 빨간색으로 표시
+        Gizmos.DrawLine(rayStart, rayEnd);  // 라인 그리기
+        Gizmos.DrawSphere(rayEnd, 0.05f);  // 끝점에 작은 구 표시
     }
 
     private void SetPromptText()
