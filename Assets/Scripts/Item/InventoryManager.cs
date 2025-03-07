@@ -17,20 +17,35 @@ public class InventoryManager : MonoBehaviour
     }
 
 
-    [SerializeField] private List<ItemData> inventory = new List<ItemData>();
+    [SerializeField] private List<ItemSlotData> inventory = new List<ItemSlotData>();
     public event Action onInventoryUpdated; // 인벤에 뭐 들어오면 ui추가해주는 이벤트 추가
 
-    public void AddItem(ItemData item)
+    public void AddItem(ItemData newItem)
     {
-        inventory.Add(item);
-        Debug.Log($"아이템 추가됨: {item.displayName}");
+        if (newItem == null) return;
+
+        if (newItem.canStack)
+        {
+            ItemSlotData existingSlot = inventory.Find(slot => slot.item == newItem);
+            if (existingSlot != null && existingSlot.quantity < newItem.maxStackAmount)
+            {
+                existingSlot.quantity++;
+                onInventoryUpdated?.Invoke();
+                Debug.Log($"{newItem.displayName} 개수 증가: {existingSlot.quantity}");
+                return;
+            }
+        }
+
+        inventory.Add(new ItemSlotData(newItem, 1));
         onInventoryUpdated?.Invoke();
+        Debug.Log($"새 아이템 추가: {newItem.displayName}");
     }
 
-    public List<ItemData> GetInventory()
+    public List<ItemSlotData> GetInventory()
     {
         return inventory;
     }
 
 
 }
+

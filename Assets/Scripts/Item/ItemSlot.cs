@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -45,3 +46,4 @@ public class ItemSlot : MonoBehaviour
         quantityText.text = string.Empty;
     }
 }
+

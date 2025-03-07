@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum ItemType
@@ -36,4 +37,18 @@ public class ItemData : ScriptableObject
 
     [Header("Consumable")]
     public ItemDataConsumable[] consumables;
+}
+
+
+[Serializable] 
+public class ItemSlotData  // 아이템 데이터로는 개수 못하니까 아이템 구조 추가
+{
+    public ItemData item;
+    public int quantity;
+
+    public ItemSlotData(ItemData item, int quantity)
+    {
+        this.item = item;
+        this.quantity = quantity;
+    }
 }

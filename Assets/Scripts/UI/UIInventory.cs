@@ -68,15 +68,15 @@ public class UIInventory : MonoBehaviour
 
     public void UpdateUI()
     {
-        List<ItemData> inventory = InventoryManager.Instance.GetInventory();
+        List<ItemSlotData> inventory = InventoryManager.Instance.GetInventory();
 
         // 슬롯 UI 업데이트
         for (int i = 0; i < slots.Length; i++)
         {
             if (i < inventory.Count)
             {
-                slots[i].item = inventory[i];
-                slots[i].quantity = 1; // 현재 개별 아이템만 관리
+                slots[i].item = inventory[i].item;
+                slots[i].quantity = inventory[i].quantity;
                 slots[i].Set();
             }
             else
