@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using static UnityEditor.Timeline.Actions.MenuPriority;
 
@@ -11,6 +12,11 @@ public class UIInventory : MonoBehaviour
     public Transform slotPanel;
     public Transform dropPosition;
 
+    [Header("Item Tooltip")]
+    public GameObject itemTooltip; // 아이템 설명 박스
+    public TextMeshProUGUI itemNameText;
+    public TextMeshProUGUI itemDescriptionText;
+    public TextMeshProUGUI itemStatsText;
 
     private PlayerController controller;
     private PlayerCondition condition;
@@ -30,6 +36,8 @@ public class UIInventory : MonoBehaviour
         CharacterManager.Instance.Player.addItem += AddItem;
 
         inventoryWindow.SetActive(false);
+        itemTooltip.SetActive(false);
+
         slots = new ItemSlot[slotPanel.childCount];
 
         for (int i = 0; i < slots.Length; i++)
@@ -111,4 +119,26 @@ public class UIInventory : MonoBehaviour
         }
         return null;
     }
+
+    public void ShowItemTooltip(ItemSlot slot)
+    {
+        itemTooltip.SetActive(true);
+        itemTooltip.transform.position = slot.transform.position + new Vector3(75, -75, 0); // 슬롯 옆으로 위치 조정
+
+        itemNameText.text = slot.item.displayName;
+        itemDescriptionText.text = slot.item.description;
+        itemStatsText.text = "";
+
+        foreach (var consumable in slot.item.consumables)
+        {
+            itemStatsText.text += $"{consumable.type}: {consumable.value}\n";
+        }
+    }
+
+    public void HideItemTooltip()
+    {
+        itemTooltip.SetActive(false);
+    }
+
+
 }

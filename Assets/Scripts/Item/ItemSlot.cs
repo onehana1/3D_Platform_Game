@@ -1,9 +1,10 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemSlot : MonoBehaviour
+public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public ItemData item;
 
@@ -44,6 +45,19 @@ public class ItemSlot : MonoBehaviour
         item = null;
         icon.gameObject.SetActive(false);
         quantityText.text = string.Empty;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (item != null)
+        {
+            inventory.ShowItemTooltip(this);
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        inventory.HideItemTooltip();
     }
 }
 
