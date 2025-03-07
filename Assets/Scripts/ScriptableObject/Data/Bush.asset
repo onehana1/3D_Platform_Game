@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: "\uD480"
   description: "\uC77C\uBC18 \uD480. \uCE98 \uC218 \uC788\uC744 \uAC83 \uAC19\uB2E4."
-  type: 0
+  type: 2
   icon: {fileID: 5781445747943558089, guid: a191b676b9627ca44aceb3a028607100, type: 3}
   dropPrefab: {fileID: 248392514027236252, guid: 83a34683cc3072544800a031b334ae11, type: 3}
   canStack: 1
   maxStackAmount: 12
-  consumables: []
+  consumables:
+  - type: 0
+    value: 1

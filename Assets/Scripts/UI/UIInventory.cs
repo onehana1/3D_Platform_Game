@@ -17,6 +17,11 @@ public class UIInventory : MonoBehaviour
     public TextMeshProUGUI itemNameText;
     public TextMeshProUGUI itemDescriptionText;
     public TextMeshProUGUI itemStatsText;
+    public GameObject useButton;
+    public GameObject dropButton;
+
+    private ItemSlot selectedItem;   // 이게 선택된 아이ㅌ
+    private int selectedItemIndex;
 
     private PlayerController controller;
     private PlayerCondition condition;
@@ -147,4 +152,25 @@ public class UIInventory : MonoBehaviour
     }
 
 
+    public void SelectItem(int index)
+    {
+        if (slots[index].item == null) return;
+
+        // 전에 선택한게 잇으면 그거 아웃라인 없애고 그다음에 아웃라인 넣기
+        if (selectedItem != null)
+        {
+            selectedItem.SetOutline(false);
+        }
+
+        selectedItem = slots[index];
+        selectedItemIndex = index;
+
+        selectedItem.SetOutline(true);
+
+        useButton.SetActive(selectedItem.item.type == ItemType.Consumable);
+        dropButton.SetActive(true);
+
+        useButton.SetActive(selectedItem.item.type==ItemType.Consumable);
+        dropButton.SetActive(true);
+    }
 }

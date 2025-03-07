@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -26,6 +27,14 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private void OnEnable()
     {
         outline.enabled = equipped;
+    }
+
+    public void SetOutline(bool state)
+    {
+        if (outline != null)
+        {
+            outline.enabled = state;
+        }
     }
 
     public void Set()
@@ -58,6 +67,11 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerExit(PointerEventData eventData)
     {
         inventory.HideItemTooltip();
+    }
+
+    public void OnClickButton() // 버튼 클릭
+    {
+        inventory.SelectItem(index);
     }
 }
 
