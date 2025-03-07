@@ -1573,6 +1573,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DecText
       objectReference: {fileID: 0}
+    - target: {fileID: 3470152229866151511, guid: ba51d53e5d6084a4e8e8908966d512c1, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 450
+      objectReference: {fileID: 0}
     - target: {fileID: 5685784873151554380, guid: ba51d53e5d6084a4e8e8908966d512c1, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1652,6 +1656,16 @@ PrefabInstance:
     - target: {fileID: 5685784873151554380, guid: ba51d53e5d6084a4e8e8908966d512c1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6618825262174221960, guid: ba51d53e5d6084a4e8e8908966d512c1, type: 3}
+      propertyPath: m_text
+      value: "\uC774\uAC83\uC800\uAC83 \uC124\uBA85 \uC5B4\uCA4C\uAD6C \uC800\uCA4C\uAD6C\uC5B4\uCA4C\uAD6C
+        \uC800\uCA4C\uAD6C\n\uC774\uAC83\uC800\uAC83 \uC124\uBA85 \uC5B4\uCA4C\uAD6C
+        \uC800\uCA4C\uAD6C"
+      objectReference: {fileID: 0}
+    - target: {fileID: 6618825262174221960, guid: ba51d53e5d6084a4e8e8908966d512c1, type: 3}
+      propertyPath: m_fontSize
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7054613638658124873, guid: ba51d53e5d6084a4e8e8908966d512c1, type: 3}
       propertyPath: m_Color.a

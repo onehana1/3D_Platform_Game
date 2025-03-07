@@ -51,7 +51,13 @@ public class UIInventory : MonoBehaviour
 
     public void Toggle()
     {
-        inventoryWindow.SetActive(!inventoryWindow.activeSelf);
+        bool isOpening = !inventoryWindow.activeSelf;
+        inventoryWindow.SetActive(isOpening);
+
+        if (!isOpening)
+        {
+            HideItemTooltip();
+        }
     }
 
     public bool IsOpen()
