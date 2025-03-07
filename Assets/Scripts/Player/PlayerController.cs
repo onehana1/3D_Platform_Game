@@ -29,12 +29,16 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 mouseDelta; // 마우스 입력값
 
+
+
     [HideInInspector]
     [SerializeField] bool canLook = true;
 
     private Rigidbody _rigidbody;
 
     private PlayerAnimationController animController;
+
+    public event Action inventory;
 
     private void Awake()
     {
@@ -160,6 +164,13 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawSphere(transform.position + Vector3.down * 0.1f, 0.2f);
     }
 
+    public void OnInventoryInput(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            inventory?.Invoke();
+        }
+    }
 
     public void ToggleCursor(bool toggle)
     {
