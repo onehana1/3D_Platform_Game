@@ -36,6 +36,8 @@ public class PlayerController : MonoBehaviour
 
     private PlayerAnimationController animController;
 
+    public Action inventory;
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -161,9 +163,20 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public void ToggleCursor(bool toggle)
+    public void OnInventoryButton(InputAction.CallbackContext callbackContext)
     {
+        if (callbackContext.phase == InputActionPhase.Started)
+        {
+            inventory?.Invoke();
+            ToggleCursor();
+        }
+    }
+
+    void ToggleCursor()
+    {
+        bool toggle = Cursor.lockState == CursorLockMode.Locked;
         Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;
         canLook = !toggle;
     }
+
 }
