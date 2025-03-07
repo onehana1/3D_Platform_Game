@@ -18,6 +18,7 @@ public class UIInventory : MonoBehaviour
     public TextMeshProUGUI itemDescriptionText;
     public TextMeshProUGUI itemStatsText;
     public GameObject useButton;
+    public GameObject EquipUseButton;
     public GameObject dropButton;
 
     private ItemSlot selectedItem;   // 이게 선택된 아이ㅌ
@@ -168,9 +169,7 @@ public class UIInventory : MonoBehaviour
         selectedItem.SetOutline(true);
 
         useButton.SetActive(selectedItem.item.type == ItemType.Consumable);
-        dropButton.SetActive(true);
-
-        useButton.SetActive(selectedItem.item.type==ItemType.Consumable);
+        EquipUseButton.SetActive(selectedItem.item.type == ItemType.Equipable);
         dropButton.SetActive(true);
     }
 }
