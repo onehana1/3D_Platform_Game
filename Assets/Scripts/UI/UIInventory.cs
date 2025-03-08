@@ -207,6 +207,14 @@ public class UIInventory : MonoBehaviour
 
     }
 
+    public void OnEquipButton()
+    {
+        if (selectedItem == null || selectedItem.item.type != ItemType.Equipable) return;
+
+        UIEquipment equipmentUI = FindObjectOfType<UIEquipment>();
+        equipmentUI.EquipItem(new ItemSlotData(selectedItem.item, selectedItem.quantity));
+    }
+
     void RemoveSelctedItem()
     {
         selectedItem.quantity--;
