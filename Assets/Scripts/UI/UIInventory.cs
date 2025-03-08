@@ -172,4 +172,45 @@ public class UIInventory : MonoBehaviour
         EquipUseButton.SetActive(selectedItem.item.type == ItemType.Equipable);
         dropButton.SetActive(true);
     }
+
+    public void OnUseButton()
+    {
+        if (selectedItem == null || selectedItem.item == null) return;
+
+        if (selectedItem.item.type == ItemType.Consumable)
+        {
+            for (int i = 0; i < selectedItem.item.consumables.Length; i++)
+            {
+                switch (selectedItem.item.consumables[i].type)
+                {
+                    case ConsumableType.Health:
+                        condition.Heal(selectedItem.item.consumables[i].value); break;
+                    case ConsumableType.Hunger:
+                        condition.Eat(selectedItem.item.consumables[i].value); break;
+                }
+            }
+            InventoryManager.Instance.UseItem(selectedItem.item);
+            UpdateUI();
+
+
+        }
+    }
+
+    void RemoveSelctedItem()
+    {
+        selectedItem.quantity--;
+
+        if (selectedItem.quantity <= 0)
+        {
+            if (slots[selectedItemIndex].equipped)
+            {
+               
+            }
+
+            selectedItem.item = null;
+        }
+
+        UpdateUI();
+    }
+
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.UI;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
@@ -39,6 +40,22 @@ public class InventoryManager : MonoBehaviour
         inventory.Add(new ItemSlotData(newItem, 1));
         onInventoryUpdated?.Invoke();
         Debug.Log($"새 아이템 추가: {newItem.displayName}");
+    }
+
+    public void UseItem(ItemData selectedItem)
+    {
+        if (selectedItem == null) return;
+        ItemSlotData item = inventory.Find(slot => slot.item== selectedItem);
+        if(item== null) return;
+        item.quantity--;
+        Debug.Log($"{selectedItem.displayName} 사용했수");
+
+        if (item.quantity <= 0)
+        {
+            inventory.Remove(item);
+        }
+        onInventoryUpdated?.Invoke();
+
     }
 
     public List<ItemSlotData> GetInventory()
