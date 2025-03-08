@@ -40,6 +40,9 @@ public class PlayerEquipment : MonoBehaviour
                 equipWeapon = item;
                 break;
         }
+
+        InventoryManager.Instance.SetEquippedState(item, true);
+        FindObjectOfType<UIEquipment>()?.EquipItem(new ItemSlotData(item, 1));
     }
 
     public void UnequipItem(ItemData item)
@@ -59,8 +62,8 @@ public class PlayerEquipment : MonoBehaviour
                 equipWeapon = null;
                 break;
         }
-
-
+        InventoryManager.Instance.SetEquippedState(item, false);
+        FindObjectOfType<UIEquipment>()?.UnequipItem(item.equipSlotType);
     }
 }
 

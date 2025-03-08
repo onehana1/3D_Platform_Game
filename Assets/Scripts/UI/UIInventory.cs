@@ -18,7 +18,9 @@ public class UIInventory : MonoBehaviour
     public TextMeshProUGUI itemDescriptionText;
     public TextMeshProUGUI itemStatsText;
     public GameObject useButton;
-    public GameObject EquipUseButton;
+    public GameObject equipUseButton;
+    public GameObject unEquipUseButton;
+
     public GameObject dropButton;
 
     private ItemSlot selectedItem;   // 이게 선택된 아이ㅌ
@@ -93,7 +95,7 @@ public class UIInventory : MonoBehaviour
         // 슬롯 UI 업데이트
         for (int i = 0; i < slots.Length; i++)
         {
-            if (i < inventory.Count)
+            if (i < inventory.Count && !inventory[i].isEquipped)
             {
                 slots[i].item = inventory[i].item;
                 slots[i].quantity = inventory[i].quantity;
@@ -184,13 +186,20 @@ public class UIInventory : MonoBehaviour
 
         selectedItem.SetOutline(true);
 
+        Debug.Log($"선택된 아이템: {selectedItem.item.displayName}, 타입: {selectedItem.item.type}");
+
+
+        bool isEquipped = InventoryManager.Instance.IsEquipped(selectedItem.item);
         useButton.SetActive(selectedItem.item.type == ItemType.Consumable);
-        EquipUseButton.SetActive(selectedItem.item.type == ItemType.Equipable);
+        equipUseButton.SetActive(!isEquipped && selectedItem.item.type == ItemType.Equipable);
+        unEquipUseButton.SetActive(isEquipped && selectedItem.item.type == ItemType.Equipable);
         dropButton.SetActive(true);
     }
 
     public void OnUseButton()
     {
+        if (selectedItem == null || selectedItem.item == null) return;
+
         if (selectedItem.item.type == ItemType.Consumable)
         {
             for (int i = 0; i < selectedItem.item.consumables.Length; i++)
@@ -226,8 +235,15 @@ public class UIInventory : MonoBehaviour
     {
         if (selectedItem == null || selectedItem.item.type != ItemType.Equipable) return;
 
-        UIEquipment equipmentUI = FindObjectOfType<UIEquipment>();
-        equipmentUI.EquipItem(new ItemSlotData(selectedItem.item, selectedItem.quantity));
+        CharacterManager.Instance.Player.equipment.EquipItem(selectedItem.item);    // 장착
+        UpdateUI(); //장착했으니까 갱신
+    }
+    public void OnUnEquipButton()
+    {
+        if (selectedItem == null || selectedItem.item.type != ItemType.Equipable) return;
+
+        CharacterManager.Instance.Player.equipment.UnequipItem(selectedItem.item);  // 장착 해제
+        UpdateUI();
     }
 
     void RemoveSelctedItem()
@@ -238,7 +254,7 @@ public class UIInventory : MonoBehaviour
         {
             if (slots[selectedItemIndex].equipped)
             {
-               
+
             }
 
             selectedItem.item = null;

@@ -92,6 +92,34 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    public void SetEquippedState(ItemData item, bool equipped)
+    {
+        ItemSlotData slot = inventory.Find(slot => slot.item == item);
+        if (slot != null)
+        {
+            slot.isEquipped = equipped;
+
+            if (equipped)
+            {
+                slot.quantity--;
+                if (slot.quantity <= 0)
+                {
+                    inventory.Remove(slot);
+                }
+            }
+            onInventoryUpdated?.Invoke();
+        }
+    }
+    public bool IsEquipped(ItemData item)       // ㅇㅣ 아이템이 장착중이냐?
+    {
+        ItemSlotData slot = inventory.Find(slot => slot.item == item);
+        return slot != null && slot.isEquipped;
+    }
+    public void InvokeInventoryUpdated()    // 호출 할 수 잇게.. 근데 이래도 되나?
+    {
+        onInventoryUpdated?.Invoke();
+    }
+
     public List<ItemSlotData> GetInventory()
     {
         return inventory;
