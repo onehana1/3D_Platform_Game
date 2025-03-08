@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEditor.UI;
+using UnityEditor.UIElements;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
@@ -54,6 +55,24 @@ public class InventoryManager : MonoBehaviour
         {
             inventory.Remove(item);
         }
+        onInventoryUpdated?.Invoke();
+
+    }
+
+
+    public void ThrowItem(ItemData selectedItem, Vector3 dropPos)
+    {
+        if(selectedItem==null) return;
+        ItemSlotData item = inventory.Find(slot => slot.item == selectedItem);
+
+        if(item==null) return;
+
+        item.quantity--;
+        if(item.quantity <= 0) inventory.Remove(item);
+
+        GameObject droppedItem = Instantiate(item.item.dropPrefab, dropPos, Quaternion.identity);
+        droppedItem.GetComponent<ItemObject>().data = item.item;
+
         onInventoryUpdated?.Invoke();
 
     }

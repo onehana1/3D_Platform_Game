@@ -196,6 +196,17 @@ public class UIInventory : MonoBehaviour
         }
     }
 
+    public void OnThrowButton()
+    {
+        if (selectedItem == null || selectedItem.item == null) return;
+
+        Vector3 dropPosition = CharacterManager.Instance.Player.transform.position + CharacterManager.Instance.Player.transform.forward * 1.5f;
+        InventoryManager.Instance.ThrowItem(selectedItem.item, dropPosition);
+
+        UpdateUI();
+
+    }
+
     void RemoveSelctedItem()
     {
         selectedItem.quantity--;
