@@ -191,8 +191,6 @@ public class UIInventory : MonoBehaviour
 
     public void OnUseButton()
     {
-        if (selectedItem == null || selectedItem.item == null) return;
-
         if (selectedItem.item.type == ItemType.Consumable)
         {
             for (int i = 0; i < selectedItem.item.consumables.Length; i++)
@@ -200,17 +198,18 @@ public class UIInventory : MonoBehaviour
                 switch (selectedItem.item.consumables[i].type)
                 {
                     case ConsumableType.Health:
-                        condition.Heal(selectedItem.item.consumables[i].value); break;
+                        condition.Heal(selectedItem.item.consumables[i].value);
+                        break;
                     case ConsumableType.Hunger:
-                        condition.Eat(selectedItem.item.consumables[i].value); break;
+                        condition.Eat(selectedItem.item.consumables[i].value);
+                        break;
                 }
             }
-            InventoryManager.Instance.UseItem(selectedItem.item);
-            UpdateUI();
 
-
+            InventoryManager.Instance.RemoveItem(selectedItem.item);
         }
     }
+
 
     public void OnThrowButton()
     {

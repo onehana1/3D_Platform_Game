@@ -77,6 +77,21 @@ public class InventoryManager : MonoBehaviour
 
     }
 
+    public void RemoveItem(ItemData item)
+    {
+        ItemSlotData slot = inventory.Find(slot => slot.item == item);
+        if (slot != null)
+        {
+            slot.quantity--;
+            if (slot.quantity <= 0)
+            {
+                inventory.Remove(slot);
+            }
+
+            onInventoryUpdated?.Invoke();
+        }
+    }
+
     public List<ItemSlotData> GetInventory()
     {
         return inventory;

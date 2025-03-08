@@ -3865,9 +3865,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 457beb7b6cde5014a8ba4360040d6621, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headSlot: {fileID: 0}
-  bodySlot: {fileID: 0}
-  weaponSlot: {fileID: 0}
+  headSlot: {fileID: 8454943225925856460}
+  bodySlot: {fileID: 1558390826}
+  weaponSlot: {fileID: 1878332872}
 --- !u!1 &1248550688
 GameObject:
   m_ObjectHideFlags: 0
