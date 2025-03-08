@@ -98,15 +98,6 @@ public class InventoryManager : MonoBehaviour
         if (slot != null)
         {
             slot.isEquipped = equipped;
-
-            if (equipped)
-            {
-                slot.quantity--;
-                if (slot.quantity <= 0)
-                {
-                    inventory.Remove(slot);
-                }
-            }
             onInventoryUpdated?.Invoke();
         }
     }

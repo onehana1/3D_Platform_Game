@@ -95,11 +95,13 @@ public class UIInventory : MonoBehaviour
         // 슬롯 UI 업데이트
         for (int i = 0; i < slots.Length; i++)
         {
-            if (i < inventory.Count && !inventory[i].isEquipped)
+            if (i < inventory.Count)
             {
                 slots[i].item = inventory[i].item;
                 slots[i].quantity = inventory[i].quantity;
                 slots[i].Set();
+
+                slots[i].SetEquipState(inventory[i].isEquipped);
             }
             else
             {

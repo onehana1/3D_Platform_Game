@@ -14,6 +14,7 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public Image icon;
     public TextMeshProUGUI quantityText;
     private Outline outline;
+    public GameObject equipIndicator;
 
     public int index;
     public bool equipped;
@@ -51,15 +52,21 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
         quantityText.text = quantity > 1 ? quantity.ToString() : string.Empty;
 
+        equipIndicator.SetActive(equipped);
 
     }
-
+    public void SetEquipState(bool isEquipped)
+    {
+        equipped = isEquipped;
+        equipIndicator.SetActive(isEquipped);
+    }
     public void Clear()
     {
         item = null;
         icon.gameObject.SetActive(false);
         if(quantityText == null)return;
         quantityText.text = string.Empty;
+        equipIndicator.SetActive(false);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

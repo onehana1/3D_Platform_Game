@@ -20,11 +20,11 @@ public class UIEquipment : MonoBehaviour
         ItemSlot targetSlot = GetSlot(itemSlot.item.equipSlotType);
         if (targetSlot == null) return;
 
-        // 기존 장착 아이템이 있다면 인벤토리로 다시 넣기
-        if (targetSlot.item != null)
-        {
-            InventoryManager.Instance.AddItem(targetSlot.item);
-        }
+        // 기존 장착 아이템이 있다면 인벤토리로 다시 넣기 <= 얘 때문에 아이템 복사된거였음
+        //if (targetSlot.item != null)
+        //{
+        //    InventoryManager.Instance.AddItem(targetSlot.item);
+        //}
 
         // 슬롯에 아이템 장착
         targetSlot.item = itemSlot.item;
@@ -37,7 +37,7 @@ public class UIEquipment : MonoBehaviour
         ItemSlot targetSlot = GetSlot(slotType);
         if (targetSlot == null || targetSlot.item == null) return;
 
-        InventoryManager.Instance.AddItem(targetSlot.item);
+        //InventoryManager.Instance.AddItem(targetSlot.item);
         targetSlot.Clear();
     }
 
