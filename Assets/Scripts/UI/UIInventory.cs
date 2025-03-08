@@ -134,6 +134,12 @@ public class UIInventory : MonoBehaviour
 
     public void ShowItemTooltip(ItemSlot slot)
     {
+        if (slot == null || slot.item == null)
+        {
+            HideItemTooltip(); // 아이템이 없으면 툴팁을 비활성화
+            return;
+        }
+
         itemTooltip.SetActive(true);
         itemTooltip.transform.position = slot.transform.position + new Vector3(75, -75, 0); // 슬롯 옆으로 위치 조정
 
@@ -149,7 +155,17 @@ public class UIInventory : MonoBehaviour
 
     public void HideItemTooltip()
     {
-        itemTooltip.SetActive(false);
+        if (itemTooltip != null)
+            itemTooltip.SetActive(false);
+
+        if (itemNameText != null)
+            itemNameText.text = "";
+
+        if (itemDescriptionText != null)
+            itemDescriptionText.text = "";
+
+        if (itemStatsText != null)
+            itemStatsText.text = "";
     }
 
 

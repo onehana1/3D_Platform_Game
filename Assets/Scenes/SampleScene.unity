@@ -3726,6 +3726,7 @@ GameObject:
   - component: {fileID: 1202653987}
   - component: {fileID: 1202653990}
   - component: {fileID: 1202653991}
+  - component: {fileID: 1202653992}
   m_Layer: 5
   m_Name: InvantoryCanvas
   m_TagString: Untagged
@@ -3852,6 +3853,21 @@ MonoBehaviour:
   useButton: {fileID: 2032902025}
   EquipUseButton: {fileID: 194115071}
   dropButton: {fileID: 979513874}
+--- !u!114 &1202653992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202653985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 457beb7b6cde5014a8ba4360040d6621, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headSlot: {fileID: 0}
+  bodySlot: {fileID: 0}
+  weaponSlot: {fileID: 0}
 --- !u!1 &1248550688
 GameObject:
   m_ObjectHideFlags: 0

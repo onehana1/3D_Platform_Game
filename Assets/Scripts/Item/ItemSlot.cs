@@ -41,36 +41,57 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         icon.gameObject.SetActive(true);
         icon.sprite = item.icon;
-        quantityText.text = quantity > 1 ? quantity.ToString() : string.Empty;
 
         if (outline != null)
         {
             outline.enabled = equipped;
         }
+
+        if (quantityText == null)return;
+
+        quantityText.text = quantity > 1 ? quantity.ToString() : string.Empty;
+
+
     }
 
     public void Clear()
     {
         item = null;
         icon.gameObject.SetActive(false);
+        if(quantityText == null)return;
         quantityText.text = string.Empty;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (item != null)
+        if (inventory == null || item == null)
         {
-            inventory.ShowItemTooltip(this);
+            inventory?.HideItemTooltip();
+            return;
         }
+
+        inventory.ShowItemTooltip(this);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        inventory.HideItemTooltip();
+        if (inventory != null)
+        {
+            inventory.HideItemTooltip();
+        }
     }
-
     public void OnClickButton() // 버튼 클릭
     {
+        if (inventory == null)
+        {
+            return;
+        }
+
+        if (item == null)
+        {
+            return;
+        }
+
         inventory.SelectItem(index);
     }
 }
