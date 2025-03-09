@@ -64,12 +64,15 @@ public class PlayerEquipment : MonoBehaviour
         switch (item.equipSlotType)
         {
             case EquipSlotType.Head:
+                RemoveObject(ref currentHeadObject);
                 equipHead = null;
                 break;
             case EquipSlotType.Body:
+                RemoveObject(ref currentBodyObject);
                 equipBody = null;
                 break;
             case EquipSlotType.Weapon:
+                RemoveObject(ref currentWeaponObject);
                 equipWeapon = null;
                 break;
         }
