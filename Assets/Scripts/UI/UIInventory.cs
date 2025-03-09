@@ -198,6 +198,16 @@ public class UIInventory : MonoBehaviour
         dropButton.SetActive(true);
     }
 
+    public void SetSelectItemClear()
+    {
+        if (selectedItem != null)
+        {
+            Debug.Log("니가 선택한거 이미 null이다.");
+            selectedItem.SetOutline(false);
+        }
+        selectedItem = null;
+    }
+
     public void OnUseButton()
     {
         if (selectedItem == null || selectedItem.item == null) return;
@@ -238,7 +248,9 @@ public class UIInventory : MonoBehaviour
         if (selectedItem == null || selectedItem.item.type != ItemType.Equipable) return;
 
         CharacterManager.Instance.Player.equipment.EquipItem(selectedItem.item);    // 장착
+        // selectedItem =null; // 이렇게 바로 null로 해주면 오류는 해결되지만 아웃라인은 그대로임
         UpdateUI(); //장착했으니까 갱신
+        SetSelectItemClear();   // 그러면 아웃라인까지 해주면 그만임
     }
     public void OnUnEquipButton()
     {
