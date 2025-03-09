@@ -5117,6 +5117,7 @@ MonoBehaviour:
   button: {fileID: 1558390827}
   icon: {fileID: 1416684462}
   quantityText: {fileID: 0}
+  equipIndicator: {fileID: 0}
   index: 0
   equipped: 0
   quantity: 0
@@ -6203,6 +6204,7 @@ MonoBehaviour:
   button: {fileID: 1878332873}
   icon: {fileID: 1145770799}
   quantityText: {fileID: 0}
+  equipIndicator: {fileID: 0}
   index: 0
   equipped: 0
   quantity: 0
@@ -7987,6 +7989,7 @@ MonoBehaviour:
   button: {fileID: 3869952368553606929}
   icon: {fileID: 2533491246543114086}
   quantityText: {fileID: 0}
+  equipIndicator: {fileID: 0}
   index: 0
   equipped: 0
   quantity: 0
@@ -8015,7 +8018,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 705507995}
-  - {fileID: 467014422}
   - {fileID: 1018674792}
   - {fileID: 1445038283}
   - {fileID: 1429971466}
@@ -8023,6 +8025,7 @@ SceneRoots:
   - {fileID: 768323882}
   - {fileID: 1066593582}
   - {fileID: 842529710}
+  - {fileID: 467014422}
   - {fileID: 321473224}
   - {fileID: 1376046683543085181}
   - {fileID: 5906879205960952487}

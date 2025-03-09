@@ -14,7 +14,7 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public Image icon;
     public TextMeshProUGUI quantityText;
     private Outline outline;
-    public GameObject equipIndicator;
+    public GameObject equipIndicator;   // 장착중 표시
 
     public int index;
     public bool equipped;
@@ -63,7 +63,8 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void Clear()
     {
         item = null;
-        icon.gameObject.SetActive(false);
+        icon.sprite = null;
+        // icon.gameObject.SetActive(false);
         if(quantityText == null)return;
         quantityText.text = string.Empty;
         equipIndicator.SetActive(false);
