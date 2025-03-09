@@ -22,4 +22,4 @@ MonoBehaviour:
   maxStackAmount: 0
   consumables: []
   equipSlotType: 2
-  equipPrefabs: {fileID: 5070089118513482939, guid: cbccb0430adbe7e43a01a899ed1626d9, type: 3}
+  equipPrefabs: {fileID: 9063602128079564699, guid: 46aff93d763ec094187e805591b9ab80, type: 3}
