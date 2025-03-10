@@ -24,6 +24,8 @@ public class CameraZoom : MonoBehaviour
         targetZoom = Mathf.Clamp(targetZoom, minZoom, maxZoom);
     }
 
+    
+
     private void Update()
     {
         _camera.fieldOfView = Mathf.SmoothDamp(_camera.fieldOfView, targetZoom, ref zoomVelocity, zoomSmoothTime);
