@@ -28,7 +28,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float lookSensitivity;   // 마우스 감도
 
     private Vector2 mouseDelta; // 마우스 입력값
-
+    public bool canAttack = true;
+    private bool attacking = false;
 
 
     [HideInInspector]
@@ -38,12 +39,17 @@ public class PlayerController : MonoBehaviour
 
     private PlayerAnimationController animController;
 
+    private PlayerEquipment playerEquipment;
+
     public event Action inventory;
+
+
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
         animController = GetComponentInChildren<PlayerAnimationController>();
+        playerEquipment = GetComponent<PlayerEquipment>();
     }
 
     void Start()
@@ -92,6 +98,23 @@ public class PlayerController : MonoBehaviour
             _rigidbody.AddForce(Vector2.up * jumpPower, ForceMode.Impulse);
             animController.TriggerJump();
         }
+    }
+
+    public void OnAttackInput(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started && !attacking)
+        {
+            attacking = true;
+            animController.TriggerAttack(); // 공격 애니메이션 실행
+
+            float attackRate = playerEquipment.GetCurrentAttackRate();
+            Invoke("OnCanAttack", attackRate);
+        }
+    }
+
+    void OnCanAttack()
+    {
+        attacking = false;
     }
 
     public void OnRunInput(InputAction.CallbackContext context)

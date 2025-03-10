@@ -103,6 +103,16 @@ public class PlayerEquipment : MonoBehaviour
         }
     }
 
+    public float GetCurrentAttackRate()
+    {
+        if (equipWeapon == null) return 1.0f; 
+
+        EquipTool equipTool = currentWeaponObject?.GetComponent<EquipTool>();
+        return equipTool != null ? equipTool.attackRate : 1.0f;
+    }
+
+
+
 }
 
 

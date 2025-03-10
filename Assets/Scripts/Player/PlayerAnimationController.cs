@@ -31,4 +31,10 @@ public class PlayerAnimationController : MonoBehaviour
     }
 
 
+    public void TriggerAttack()
+    {
+        animator.SetTrigger("Attack");
+    }
+
+
 }
