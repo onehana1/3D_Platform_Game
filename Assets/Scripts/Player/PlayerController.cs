@@ -41,7 +41,10 @@ public class PlayerController : MonoBehaviour
 
     private PlayerEquipment playerEquipment;
 
+    private PlayerStat playerStat;
+
     public event Action inventory;
+
 
 
 
@@ -50,6 +53,7 @@ public class PlayerController : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         animController = GetComponentInChildren<PlayerAnimationController>();
         playerEquipment = GetComponent<PlayerEquipment>();
+        playerStat = GetComponent<PlayerStat>();
     }
 
     void Start()
@@ -95,7 +99,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started && IsGrounded())
         {
-            _rigidbody.AddForce(Vector2.up * jumpPower, ForceMode.Impulse);
+            _rigidbody.AddForce(Vector2.up * playerStat.JumpPower, ForceMode.Impulse);
             animController.TriggerJump();
         }
     }
@@ -149,7 +153,7 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        float targetMoveSpeed = isRunning ? moveSpeed * 2f : moveSpeed;
+        float targetMoveSpeed = isRunning ? playerStat.MoveSpeed * 2f : playerStat.MoveSpeed;
 
         if (curMovementInput == Vector2.zero)
         {
@@ -167,7 +171,7 @@ public class PlayerController : MonoBehaviour
         _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, moveVelocity, Time.deltaTime * decelerationSpeed);
 
         // 애니메이션 블렌드 트리 적용 (좌우 이동 추가)
-        float speedMagnitude = _rigidbody.velocity.magnitude / (moveSpeed * 2f);
+        float speedMagnitude = _rigidbody.velocity.magnitude / (playerStat.MoveSpeed * 2f);
         float moveSpeedValue = Mathf.Lerp(animController.GetMoveSpeed(), speedMagnitude, Time.deltaTime * 10f);
         animController.SetMoveDirection(curMovementInput.x, curMovementInput.y, moveSpeedValue); // **좌우 이동 반영**
     }
