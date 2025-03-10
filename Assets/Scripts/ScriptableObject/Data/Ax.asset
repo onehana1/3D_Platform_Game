@@ -23,3 +23,7 @@ MonoBehaviour:
   consumables: []
   equipSlotType: 2
   equipPrefabs: {fileID: 9063602128079564699, guid: 46aff93d763ec094187e805591b9ab80, type: 3}
+  attackBonus: 5
+  defenseBonus: 0
+  moveSpeedBonus: 0
+  jumpPowerBonus: 0

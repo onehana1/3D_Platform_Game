@@ -11,14 +11,19 @@ public enum ItemType
 public enum ConsumableType
 {
     Hunger,
-    Health
+    Health,
+    StatBoost
 }
 
-[System.Serializable]
+[Serializable]
 public class ItemDataConsumable
 {
     public ConsumableType type;
     public float value;
+
+    public StatType statType; 
+    public bool isTemporary;  // 일시적?
+    public float duration; // 지속 시간 
 }
 
 [CreateAssetMenu(fileName = "Item", menuName = "New Item")]
@@ -41,6 +46,11 @@ public class ItemData : ScriptableObject
     [Header("Equipable")]
     public EquipSlotType equipSlotType;
     public GameObject equipPrefabs;
+
+    public float attackBonus;
+    public float defenseBonus;
+    public float moveSpeedBonus;
+    public float jumpPowerBonus;
 }
 
 
@@ -58,3 +68,4 @@ public class ItemSlotData  // 아이템 데이터로는 개수 못하니까 아이템 구조 추가
         isEquipped = false;
     }
 }
+

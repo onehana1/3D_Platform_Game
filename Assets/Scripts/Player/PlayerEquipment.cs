@@ -53,6 +53,8 @@ public class PlayerEquipment : MonoBehaviour
         }
 
         InventoryManager.Instance.SetEquippedState(item, true);
+        ApplyEquipmentStats(item, true);
+
         FindObjectOfType<UIEquipment>()?.EquipItem(new ItemSlotData(item, 1));
     }
 
@@ -77,6 +79,7 @@ public class PlayerEquipment : MonoBehaviour
                 break;
         }
         InventoryManager.Instance.SetEquippedState(item, false);
+        ApplyEquipmentStats(item, false);
         FindObjectOfType<UIEquipment>()?.UnequipItem(item.equipSlotType);
     }
 
@@ -118,6 +121,18 @@ public class PlayerEquipment : MonoBehaviour
         EquipTool equipTool = currentWeaponObject?.GetComponent<EquipTool>();
         return equipTool != null ? equipTool.useStamina : 1.0f;
     }
+
+
+    private void ApplyEquipmentStats(ItemData item, bool isEquipped)
+    {
+        float multiplier = isEquipped ? 1f : -1f;
+
+        CharacterManager.Instance.Player.stat.ModifyStat(StatType.AttackPower, item.attackBonus * multiplier);
+        CharacterManager.Instance.Player.stat.ModifyStat(StatType.DefensePower, item.defenseBonus * multiplier);
+        CharacterManager.Instance.Player.stat.ModifyStat(StatType.MoveSpeed, item.moveSpeedBonus * multiplier);
+        CharacterManager.Instance.Player.stat.ModifyStat(StatType.JumpPower, item.jumpPowerBonus * multiplier);
+    }
+
 
 }
 
