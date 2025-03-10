@@ -57,6 +57,7 @@ public class InventoryManager : MonoBehaviour
         }
         onInventoryUpdated?.Invoke();
 
+        CharacterManager.Instance.Player.ApplyItemEffect(selectedItem);
     }
 
 

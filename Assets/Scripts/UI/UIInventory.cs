@@ -214,20 +214,9 @@ public class UIInventory : MonoBehaviour
 
         if (selectedItem.item.type == ItemType.Consumable)
         {
-            for (int i = 0; i < selectedItem.item.consumables.Length; i++)
-            {
-                switch (selectedItem.item.consumables[i].type)
-                {
-                    case ConsumableType.Health:
-                        condition.Heal(selectedItem.item.consumables[i].value);
-                        break;
-                    case ConsumableType.Hunger:
-                        condition.Eat(selectedItem.item.consumables[i].value);
-                        break;
-                }
-            }
-
-            InventoryManager.Instance.RemoveItem(selectedItem.item);
+            InventoryManager.Instance.UseItem(selectedItem.item);
+            UpdateUI();
+            SetSelectItemClear();
         }
     }
 

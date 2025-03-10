@@ -46,6 +46,26 @@ public class PlayerStat : MonoBehaviour
             _ => 0f
         };
     }
+
+
+    public void ApplyStatBoost(ItemDataConsumable effect)
+    {
+        if (effect.isTemporary)
+        {
+            StartCoroutine(TemporaryStatBoost(effect.statType, effect.value, effect.duration));
+        }
+        else
+        {
+            ModifyStat(effect.statType, effect.value);
+        }
+    }
+
+    private IEnumerator TemporaryStatBoost(StatType stat, float value, float duration)
+    {
+        ModifyStat(stat, value);
+        yield return new WaitForSeconds(duration);
+        ModifyStat(stat, -value);
+    }
 }
 
 public enum StatType
@@ -53,6 +73,7 @@ public enum StatType
     MoveSpeed,
     JumpPower,
     AttackPower,
-    DefensePower
+    DefensePower,
+    None
 }
 

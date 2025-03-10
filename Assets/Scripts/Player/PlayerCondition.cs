@@ -38,6 +38,12 @@ public class PlayerCondition : MonoBehaviour, IDamagable
         hunger.Add(amount);
     }
 
+    public void StaminaBoost(float amount)
+    {
+        stamina.Add(amount);
+    }
+
+
     public bool UseStamina(float amount)
     {
         if (stamina.curValue - amount < 0)
@@ -58,4 +64,5 @@ public class PlayerCondition : MonoBehaviour, IDamagable
         health.Subtract(damageAmount);
         onTakeDamage?.Invoke();
     }
+
 }
