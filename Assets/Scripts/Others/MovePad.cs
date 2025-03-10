@@ -16,7 +16,7 @@ public class MovePad : MonoBehaviour
         startPos = transform.position;  // 시작 위치 저장
     }
 
-    void Update()
+    void FixedUpdate()
     {
         MovePlatform();
     }
@@ -30,4 +30,22 @@ public class MovePad : MonoBehaviour
         else
             transform.position = startPos + new Vector3(0, offset, 0);  // 상하 이동
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("닿앗다");
+            other.transform.SetParent(transform);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        { 
+            other.transform.SetParent(null);
+        }
+    }
+
 }
