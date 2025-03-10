@@ -18,6 +18,9 @@ public class EquipTool : Equip
 
     public Transform playerPos;
 
+    [SerializeField] private float gatherRadius = 1.5f; 
+    [SerializeField] private LayerMask resourceLayer;
+
     void Start()
     {
         playerPos = GameObject.FindWithTag("Player").transform;
@@ -26,19 +29,22 @@ public class EquipTool : Equip
     public void OnHit()
     {
 
-        Vector3 origin = playerPos.position;
-        Vector3 direction = playerPos.forward; // 플레이어가 바라보는 방향
+        Vector3 hitPosition = transform.position;
 
-        Ray ray = new Ray(origin, direction);
-        RaycastHit hit;
+        Collider[] hitColliders = Physics.OverlapSphere(hitPosition, gatherRadius, resourceLayer);
 
-        if (Physics.Raycast(ray, out hit, attackDistance))
+        foreach (Collider hitCollider in hitColliders)
         {
-            if (doesGatherResources && hit.collider.TryGetComponent(out Resource resource))
+            if (hitCollider.TryGetComponent(out Resource resource))
             {
-                resource.Gather(hit.point, hit.normal);
+                resource.Gather(hitCollider.transform.position, Vector3.up);
             }
         }
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, gatherRadius);
     }
 
     public float GetNecessaryStamina()

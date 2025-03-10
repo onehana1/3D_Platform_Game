@@ -135,3 +135,7 @@ MonoBehaviour:
   damage: 10
   useStamina: 10
   playerPos: {fileID: 0}
+  gatherRadius: 1.5
+  resourceLayer:
+    serializedVersion: 2
+    m_Bits: 512

@@ -29,14 +29,15 @@ public class Interaction : MonoBehaviour
         {
             lastCheckTime = Time.time;
 
-            Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
+            Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f));
             RaycastHit hit;
 
-            // 기즈모 시각화를 위한 Ray 위치 저장
-            rayStart = ray.origin;
-            rayEnd = ray.origin + ray.direction * maxCheckDistance;
+            Vector3 rayDirection = ray.direction; // 기본 방향            
 
-            if (Physics.Raycast(ray, out hit, maxCheckDistance, layerMask))
+            rayStart = ray.origin;
+            rayEnd = ray.origin + rayDirection * maxCheckDistance;
+
+            if (Physics.Raycast(ray.origin, rayDirection, out hit, maxCheckDistance, layerMask))
             {
                 curInteractGameObject = hit.collider.gameObject;
                 curInteractable = hit.collider.GetComponent<IInteractable>();
@@ -49,6 +50,7 @@ public class Interaction : MonoBehaviour
                 curInteractable = null;
                 promptText.gameObject.SetActive(false);
             }
+
         }
     }
 
@@ -56,9 +58,14 @@ public class Interaction : MonoBehaviour
     {
         if (camera == null) return;
 
-        Gizmos.color = Color.red;  // 빨간색으로 표시
-        Gizmos.DrawLine(rayStart, rayEnd);  // 라인 그리기
-        Gizmos.DrawSphere(rayEnd, 0.05f);  // 끝점에 작은 구 표시
+        Gizmos.color = (curInteractable != null) ? Color.green : Color.red;
+        Gizmos.DrawLine(rayStart, rayEnd);
+
+        if (curInteractable != null)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(rayEnd, 0.05f);
+        }
     }
 
     private void SetPromptText()
