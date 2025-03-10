@@ -14,6 +14,7 @@ public class EquipTool : Equip
     [Header("Combat")]
     public bool doesDealDamage;
     public int damage;
+    public float useStamina;
 
     public Transform playerPos;
 
@@ -38,6 +39,11 @@ public class EquipTool : Equip
                 resource.Gather(hit.point, hit.normal);
             }
         }
+    }
+
+    public float GetNecessaryStamina()
+    {
+        return useStamina;
     }
 }
 

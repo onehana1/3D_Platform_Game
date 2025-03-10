@@ -133,3 +133,5 @@ MonoBehaviour:
   doesGatherResources: 1
   doesDealDamage: 1
   damage: 10
+  useStamina: 10
+  playerPos: {fileID: 0}

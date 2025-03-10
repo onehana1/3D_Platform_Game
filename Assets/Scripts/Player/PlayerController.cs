@@ -104,11 +104,18 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started && !attacking)
         {
-            attacking = true;
-            animController.TriggerAttack(); // 공격 애니메이션 실행
 
-            float attackRate = playerEquipment.GetCurrentAttackRate();
-            Invoke("OnCanAttack", attackRate);
+            float toolStamina = playerEquipment.GetCurrentNecessaryStamina();
+
+
+            if (CharacterManager.Instance.Player.condition.UseStamina(toolStamina))
+            {
+                attacking = true;
+                animController.TriggerAttack(); // 공격 애니메이션 실행
+
+                float attackRate = playerEquipment.GetCurrentAttackRate();
+                Invoke("OnCanAttack", attackRate);
+            }
         }
     }
 

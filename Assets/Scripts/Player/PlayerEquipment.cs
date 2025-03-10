@@ -111,7 +111,13 @@ public class PlayerEquipment : MonoBehaviour
         return equipTool != null ? equipTool.attackRate : 1.0f;
     }
 
+    public float GetCurrentNecessaryStamina()
+    {
+        if (equipWeapon == null) return 1.0f;
 
+        EquipTool equipTool = currentWeaponObject?.GetComponent<EquipTool>();
+        return equipTool != null ? equipTool.useStamina : 1.0f;
+    }
 
 }
 
