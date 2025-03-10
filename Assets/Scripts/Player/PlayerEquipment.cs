@@ -19,7 +19,7 @@ public class PlayerEquipment : MonoBehaviour
     public ItemData equipBody;
     public ItemData equipWeapon;
 
-    private GameObject currentWeaponObject;
+    public GameObject currentWeaponObject;
     private GameObject currentHeadObject;
     private GameObject currentBodyObject;
 

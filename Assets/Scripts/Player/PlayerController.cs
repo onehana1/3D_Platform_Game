@@ -117,6 +117,19 @@ public class PlayerController : MonoBehaviour
         attacking = false;
     }
 
+    public void OnAnimationHit() 
+    {
+        if (playerEquipment.currentWeaponObject != null)
+        {
+            EquipTool tool = playerEquipment.currentWeaponObject.GetComponent<EquipTool>(); 
+            if (tool != null)
+            {
+                tool.OnHit(); // 타격 실행
+            }
+        }
+    }
+
+
     public void OnRunInput(InputAction.CallbackContext context)
     {
         isRunning = context.phase == InputActionPhase.Performed;
