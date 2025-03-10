@@ -16,8 +16,8 @@ public class Interaction : MonoBehaviour
     private Camera camera;
 
 
-    private Vector3 rayStart;  // 시작점 저장
-    private Vector3 rayEnd;    // 끝점 저장
+    private Vector3 rayStart;  
+    private Vector3 rayEnd;  
     void Start()
     {
         camera = Camera.main;
@@ -41,8 +41,6 @@ public class Interaction : MonoBehaviour
                 curInteractGameObject = hit.collider.gameObject;
                 curInteractable = hit.collider.GetComponent<IInteractable>();
                 SetPromptText();
-
-                // 실제 충돌 지점을 Gizmo에 반영
                 rayEnd = hit.point;
             }
             else
