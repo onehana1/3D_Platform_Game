@@ -36,5 +36,9 @@ public class PlayerAnimationController : MonoBehaviour
         animator.SetTrigger("Attack");
     }
 
+    public void SetWall(bool isWall)
+    {
+        animator.SetBool("Wall", isWall);
+    }
 
 }

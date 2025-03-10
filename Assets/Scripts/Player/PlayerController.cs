@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,6 +14,13 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded = false;
     private bool isRunning = false;
     [SerializeField] float currentSpeed = 0;
+
+    [Header("Wall Climbing")]
+    [SerializeField] LayerMask climbableLayer;
+    [SerializeField] float climbSpeed = 3.0f;
+    [SerializeField] float wallCheckDistance = 1.5f;
+    private bool isWallAttached = false;
+    private bool isWallCheckActive = true;
 
     [Header("Rotation")]
     [SerializeField] private float rotationSpeed = 200f;
@@ -65,8 +73,14 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = IsGrounded();
         animController.SetGrounded(isGrounded);
-        Move();
-        Rotate();
+        if (isWallCheckActive)
+            CheckWall(); // 벽 감지
+
+        if (!isWallAttached)
+        {
+            Move();
+            Rotate();
+        }
     }
 
     private void LateUpdate()
@@ -97,10 +111,22 @@ public class PlayerController : MonoBehaviour
 
     public void OnJumpInput(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started && IsGrounded())
+        if (context.phase == InputActionPhase.Started)
         {
-            _rigidbody.AddForce(Vector2.up * playerStat.JumpPower, ForceMode.Impulse);
-            animController.TriggerJump();
+            if (isWallAttached)
+            {
+                Vector3 jumpDirection = (Vector3.up * (jumpPower * 0.7f)) + (-transform.forward * 1.5f);
+                _rigidbody.velocity = Vector3.zero;
+                _rigidbody.AddForce(jumpDirection, ForceMode.Impulse);
+
+                DetachFromWall();
+                StartCoroutine(EnableWallCheckAfterDelay());
+            }
+            else if (IsGrounded())
+            {
+                _rigidbody.AddForce(Vector2.up * playerStat.JumpPower, ForceMode.Impulse);
+                animController.TriggerJump();
+            }
         }
     }
 
@@ -153,6 +179,8 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
+        if (isWallAttached) return;
+
         float targetMoveSpeed = isRunning ? playerStat.MoveSpeed * 2f : playerStat.MoveSpeed;
 
         if (curMovementInput == Vector2.zero)
@@ -201,14 +229,64 @@ public class PlayerController : MonoBehaviour
 
     bool IsGrounded()
     {
+        if(isWallAttached) return false;
         return Physics.CheckSphere(transform.position + Vector3.down * 0.1f, 0.2f, groundLayerMask);
     }
 
 
+
+    private void CheckWall()
+    {
+        if (isWallAttached) return;
+
+        RaycastHit hit;
+        Vector3 origin = transform.position + Vector3.up * 1.0f;
+        Vector3 forward = transform.forward;
+
+        if (Physics.SphereCast(origin, 0.3f, forward, out hit, wallCheckDistance, climbableLayer))
+        {
+            Debug.Log("벽 붙음");
+            isWallAttached = true;
+            isWallCheckActive = false;
+            _rigidbody.velocity = Vector3.zero;
+            _rigidbody.useGravity = false;
+            animController.SetWall(true);
+            
+        }
+        else
+        {
+            DetachFromWall();
+        }
+    }
+    private void DetachFromWall()
+    {
+        if (isWallAttached)
+        {
+            Debug.Log("제발 떨어져줘");
+            isWallAttached = false;
+            isWallCheckActive = false; 
+            _rigidbody.useGravity = true;
+            animController.SetWall(false);
+
+            StartCoroutine(EnableWallCheckAfterDelay());
+        }
+    }
+
+    private IEnumerator EnableWallCheckAfterDelay()
+    {
+        yield return new WaitForSeconds(0.5f);
+        isWallCheckActive = true;
+
+    }
     private void OnDrawGizmos()
     {
-        Gizmos.color = new Color(1, 0, 0, 0.5f); // 반투명한 빨간색
-        Gizmos.DrawSphere(transform.position + Vector3.down * 0.1f, 0.2f);
+        Gizmos.color = Color.red;
+        Vector3 origin = transform.position + Vector3.up * 1.0f;
+        Vector3 direction = transform.forward;
+
+        Gizmos.DrawRay(origin, direction * wallCheckDistance);
+        Gizmos.DrawWireSphere(origin, 0.3f);
+        Gizmos.DrawWireSphere(origin + direction * wallCheckDistance, 0.3f);
     }
 
     public void OnInventoryInput(InputAction.CallbackContext context)

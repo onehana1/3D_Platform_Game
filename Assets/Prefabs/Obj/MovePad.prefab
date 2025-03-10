@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1709490205961757707}
   - component: {fileID: 778691051981191658}
   - component: {fileID: 782267704177274233}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MovePad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4034507644843921869}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.97, y: 8.27, z: 5.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 447471152383303166}
   - component: {fileID: 2279576849858872896}
   - component: {fileID: 2157660423290947476}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
