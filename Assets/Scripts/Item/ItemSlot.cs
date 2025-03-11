@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    public event Action<int> OnClick;
+
     public ItemData item;
 
     public UIInventory inventory;
@@ -23,6 +25,10 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private void Awake()
     {
         outline = GetComponent<Outline>();
+        if (button != null)
+        {
+            button.onClick.AddListener(OnClickButton);
+        }
     }
 
     private void OnEnable()
@@ -36,6 +42,13 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             outline.enabled = state;
         }
+    }
+
+    public void Set(ItemData item, int quantity, bool isEquipped)
+    {
+        Debug.Log("슬롯에 제발 넣어주세요");
+        icon.sprite = item.icon;
+        quantityText.text = quantity > 1 ? quantity.ToString() : string.Empty;
     }
 
     public void Set()
@@ -90,6 +103,7 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     }
     public void OnClickButton() // 버튼 클릭
     {
+        Debug.Log("버튼 클릭");
         if (inventory == null)
         {
             return;
@@ -99,8 +113,10 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             return;
         }
-
-        inventory.SelectItem(index);
+        OnClick?.Invoke(index);
+        //inventory.SelectItem(index);
     }
+
+
 }
 

@@ -62,11 +62,12 @@ public class ItemSlotData  // 아이템 데이터로는 개수 못하니까 아이템 구조 추가
     public int quantity;
     public bool isEquipped; // 장착함?
 
-    public ItemSlotData(ItemData item, int quantity)
+    public ItemSlotData(ItemData item, int quantity = 1)
     {
         this.item = item;
         this.quantity = quantity;
         isEquipped = false;
     }
+    public ItemSlotData() { }
 }
 

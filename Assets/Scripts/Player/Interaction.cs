@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,6 +15,8 @@ public class Interaction : MonoBehaviour
 
     public TextMeshProUGUI promptText;
     private Camera camera;
+
+
 
 
     private Vector3 rayStart;  
@@ -78,7 +81,13 @@ public class Interaction : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started && curInteractable != null)
         {
-            curInteractable.OnInteract();
+            //curInteractable.OnInteract();
+            if (curInteractable is ItemObject itemObject)
+            {
+                UIManager.Instance.GetInventoryPresenter().AddItem(itemObject.data);
+
+                Destroy(itemObject.gameObject); // 아이템 제거
+            }
             curInteractGameObject = null;
             curInteractable = null;
             promptText.gameObject.SetActive(false);

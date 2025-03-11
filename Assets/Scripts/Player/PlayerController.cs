@@ -39,6 +39,8 @@ public class PlayerController : MonoBehaviour
     public bool canAttack = true;
     private bool attacking = false;
 
+    public event Action onInventoryToggle;  // 인벤 토글
+
 
     [HideInInspector]
     [SerializeField] bool canLook = true;
@@ -293,7 +295,8 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started)
         {
-            inventory?.Invoke();
+           // inventory?.Invoke();
+            onInventoryToggle?.Invoke();
         }
     }
 

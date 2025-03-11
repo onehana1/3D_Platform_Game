@@ -11,10 +11,23 @@ public class UIManager : MonoBehaviour
     private Transform target;
     private bool isShowing = false;
 
+
+    [SerializeField] private UIInventoryView inventoryView;
+    private UIInventoryPresenter inventoryPresenter;
+    private InventoryModel inventoryModel;
+
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
+
+        PlayerController player = FindObjectOfType<PlayerController>();
+
+        if (player != null && inventoryView != null)
+        {
+            inventoryModel = new InventoryModel(); 
+            inventoryPresenter = new UIInventoryPresenter(inventoryView, player, inventoryModel);
+        }
     }
 
     private void Update()
@@ -59,5 +72,10 @@ public class UIManager : MonoBehaviour
             activeInfoPanel.SetActive(false);
         }
         isShowing = false;
+    }
+
+    public UIInventoryPresenter GetInventoryPresenter()
+    {
+        return inventoryPresenter;
     }
 }
